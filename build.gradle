@@ -1,8 +1,21 @@
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath "io.spring.javaformat:spring-javaformat-gradle-plugin:0.0.20"
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.2.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'checkstyle'
 }
+
+apply plugin: 'io.spring.javaformat'
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
@@ -10,6 +23,7 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+	jcenter()
 }
 
 dependencies {
@@ -17,8 +31,35 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	checkstyle 'io.spring.javaformat:spring-javaformat-checkstyle:0.0.20'
 }
 
 test {
 	useJUnitPlatform()
 }
+
+javadoc {
+    options.charSet = 'UTF-8'
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+checkstyle {
+	toolVersion = '8.29'
+	configProperties = [
+		checkstyleConfigDir: checkstyle.configFile.parent
+	]
+}
+
+task copyCustomJar(type: Copy) {
+	def customJar = configurations.checkstyle.files[0]
+	def configDir = checkstyle.configFile.parent
+
+	from customJar
+    into configDir
+}
+
+task setup(dependsOn: [copyCustomJar])
