@@ -1,0 +1,17 @@
+{
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.format.settings.url": "config/formatter/eclipse-code-formatter.xml",
+  "java.checkstyle.configuration": "${workspaceFolder}/config/checkstyle/checkstyle.xml",
+  "java.checkstyle.properties": {
+    "checkstyleConfigDir": "${workspaceFolder}/config/checkstyle"
+  },
+  "java.checkstyle.modules": [
+    "${workspaceFolder}/config/checkstyle/spring-javaformat-checkstyle-0.0.20.jar"
+  ]
+}
